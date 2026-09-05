@@ -23,6 +23,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 
@@ -30,17 +31,24 @@ def generate_launch_description():
     navigation2_dir = get_package_share_directory('originbot_navigation')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
 
+    default_map_yaml_path = os.path.join(navigation2_dir,'maps','my_map.yaml')
+    default_nav2_param_path = os.path.join(navigation2_dir,'param','originbot_nav2.yaml')
+    default_rviz_config_path = os.path.join(navigation2_dir,'rviz','navigation.rviz')
+    rviz_config_path = LaunchConfiguration('rvizconfig', default=default_rviz_config_path)
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    map_yaml_path = LaunchConfiguration('map',default=os.path.join(navigation2_dir,'maps','my_map.yaml'))
-    nav2_param_path = LaunchConfiguration('params_file',default=os.path.join(navigation2_dir,'param','originbot_nav2.yaml'))
+    use_sim_time_bool = ParameterValue(use_sim_time, value_type=bool)
+    map_yaml_path = LaunchConfiguration('map', default=default_map_yaml_path)
+    nav2_param_path = LaunchConfiguration('params_file', default=default_nav2_param_path)
+    use_composition = LaunchConfiguration('use_composition', default='False')
     slam = LaunchConfiguration('slam', default='False')  
-    # slam = LaunchConfiguration('slam', default='True')     
-    rviz_config_dir = os.path.join(nav2_bringup_dir,'rviz','nav2_default_view.rviz')
+    # slam = LaunchConfiguration('slam', default='True')
 
     return LaunchDescription([
-        DeclareLaunchArgument('use_sim_time',default_value=use_sim_time,description='Use simulation (Gazebo) clock if true'),
-        DeclareLaunchArgument('map',default_value=map_yaml_path,description='Full path to map file to load'),
-        DeclareLaunchArgument('params_file',default_value=nav2_param_path,description='Full path to param file to load'),
+        DeclareLaunchArgument('use_sim_time',default_value='true',description='Use simulation (Gazebo) clock if true'),
+        DeclareLaunchArgument('map',default_value=default_map_yaml_path,description='Full path to map file to load'),
+        DeclareLaunchArgument('params_file',default_value=default_nav2_param_path,description='Full path to param file to load'),
+        DeclareLaunchArgument('use_composition',default_value='False',description='Use composed bringup if true'),
+        DeclareLaunchArgument('rvizconfig',default_value=default_rviz_config_path,description='Full path to rviz config file'),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_bringup_dir,'/launch','/bringup_launch.py']),
@@ -48,13 +56,14 @@ def generate_launch_description():
                 'map': map_yaml_path,
                 'use_sim_time': use_sim_time,
                 'params_file': nav2_param_path,
+                'use_composition': use_composition,
                 'slam': slam,}.items(),
         ),
         Node(
             package='rviz2',
             executable='rviz2',
             name='rviz2',
-            arguments=['-d', rviz_config_dir],
-            parameters=[{'use_sim_time': use_sim_time}],
+            arguments=['-d', rviz_config_path, '--ros-args', '-p', 'use_sim_time:=true'],
+            parameters=[{'use_sim_time': use_sim_time_bool}],
             output='screen'),
     ])

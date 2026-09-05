@@ -6,6 +6,7 @@ from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 import xacro
 
@@ -14,6 +15,7 @@ def generate_launch_description():
 
     # Check if we're told to use sim time
     use_sim_time = LaunchConfiguration('use_sim_time')
+    use_sim_time_bool = ParameterValue(use_sim_time, value_type=bool)
 
     # Process the URDF file
     pkg_path = os.path.join(get_package_share_directory('originbot_gazebo'))
@@ -21,7 +23,7 @@ def generate_launch_description():
     robot_description_config = xacro.process_file(xacro_file)
     
     # Create a robot_state_publisher node
-    params = {'robot_description': robot_description_config.toxml(), 'use_sim_time': use_sim_time}
+    params = {'robot_description': robot_description_config.toxml(), 'use_sim_time': use_sim_time_bool}
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
