@@ -1,6 +1,14 @@
 # OriginBot Intelligent Robot Open Source Suite (PC Function Package)
 ![originbot](images/originbot.jpg)
 
+## About This Fork
+
+This fork adds a custom Gazebo map and world, tuned Nav2 navigation settings,
+RViz waypoint controls, and ROS 2 Humble simulation launch updates.
+
+It currently contains only the PC and Gazebo simulation code. The custom
+waypoint sender deployed under `/userdata/dev_ws` on the robot is not included.
+
 OriginBot is an intelligent robot open-source suite and a community-driven open-source project aimed at enabling every participant to enjoy the fun of robot development.
 
 ## Project Links
