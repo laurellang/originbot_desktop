@@ -1,171 +1,100 @@
-# OriginBot Intelligent Robot Open Source Suite (PC Function Package)
-![originbot](images/originbot.jpg)
+# OriginBot 室内避障与多点导航
 
-## About This Fork
+基于 ROS 2 Humble、Nav2、Gazebo 和 RViz 的 OriginBot 导航实践项目。
+本项目包含自定义室内地图与仿真场景、导航参数调优、激光雷达建图配置，
+以及 RViz waypoint 交互界面。
 
-This fork adds a custom Gazebo map and world, tuned Nav2 navigation settings,
-RViz waypoint controls, and ROS 2 Humble simulation launch updates.
+## 演示视频
 
-It currently contains only the PC and Gazebo simulation code. The custom
-waypoint sender deployed under `/userdata/dev_ws` on the robot is not included.
+[![点击播放 OriginBot 避障导航演示](docs/photos/real-world-path-planning.jpg)](docs/media/originbot-demo.mp4)
 
-## Project Demo and Report
+**[点击播放完整演示视频（MP4，34.8 MB）](docs/media/originbot-demo.mp4)**
 
-- [OriginBot demonstration video](docs/media/originbot-demo.mp4)
-- [OriginBot course report](docs/reports/originbot-course-report.docx)
+> GitHub 会在视频文件页面提供播放器。点击上方封面或文字链接即可播放。
 
-### Project Photos
+## 项目功能
 
-| OriginBot | Gazebo simulation |
+- 在 Gazebo 中加载自定义地图、墙体和避障测试场景。
+- 使用激光雷达与 Cartographer 完成环境建图。
+- 使用 Nav2 进行全局路径规划、局部避障和目标跟踪。
+- 使用 Regulated Pure Pursuit Controller 控制差速小车运动。
+- 在 RViz 中使用 Navigation 2 面板和 GoalTool 设置导航目标。
+- 显示 waypoint 的位置、编号和朝向，支持多目标点导航工作流。
+- 支持仿真环境和真实 OriginBot 小车实验。
+
+## 项目展示
+
+| OriginBot 小车 | Gazebo 仿真 |
 | --- | --- |
-| ![OriginBot robot](docs/photos/originbot-1.jpg) | ![Gazebo simulation](docs/photos/gazebo-simulation.jpg) |
+| ![OriginBot 小车](docs/photos/originbot-1.jpg) | ![Gazebo 仿真](docs/photos/gazebo-simulation.jpg) |
 
-| Physical environment | LiDAR map |
+| 实景地图 | 雷达扫描地形图 |
 | --- | --- |
-| ![Physical environment](docs/photos/physical-environment.jpg) | ![LiDAR map](docs/photos/lidar-map.png) |
+| ![实景地图](docs/photos/physical-environment.jpg) | ![雷达扫描地形图](docs/photos/lidar-map.png) |
 
-| Real-world path planning | Real-world operation |
+| 实景寻径 | 实景操作 |
 | --- | --- |
-| ![Real-world path planning](docs/photos/real-world-path-planning.jpg) | ![Real-world operation](docs/photos/real-world-operation-1.jpg) |
+| ![实景寻径](docs/photos/real-world-path-planning.jpg) | ![实景操作](docs/photos/real-world-operation-1.jpg) |
 
-Additional views: [OriginBot side view](docs/photos/originbot-2.jpg) and
-[real-world operation view 2](docs/photos/real-world-operation-2.jpg).
+更多图片：[小车侧面](docs/photos/originbot-2.jpg) ·
+[实景操作视角 2](docs/photos/real-world-operation-2.jpg)
 
-OriginBot is an intelligent robot open-source suite and a community-driven open-source project aimed at enabling every participant to enjoy the fun of robot development.
+## 课程报告
 
-## Project Links
+完整的项目背景、系统方案、算法流程、调试记录和实验总结见：
 
-### Main Site
+**[下载 OriginBot 课程报告（DOCX）](docs/reports/originbot-course-report.docx)**
 
-[https://www.originbot.org/en/](https://www.originbot.org/en/)
+## 主要改动
 
-### Source Code Repositories
+- `originbot_gazebo/worlds/my_map.world`：自定义 Gazebo 场景。
+- `originbot_navigation/maps/my_map.*`：实验环境栅格地图。
+- `originbot_navigation/param/originbot_nav2.yaml`：Nav2 控制器、代价地图和避障参数。
+- `originbot_navigation/launch/`：自定义地图、参数文件和 RViz 配置入口。
+- `originbot_navigation/rviz/navigation.rviz`：Navigation 2 面板、GoalTool 和 waypoint 显示。
 
-| Repository                                                     | Description                 |
-| -------------------------------------------------------------- | --------------------------- |
-[originbot ](https://github.com/guyuehome/originbot)             | OriginBot robot function package repository |
-[originbot_desktop](https://github.com/guyuehome/originbot_desktop) | OriginBot desktop function package repository |
-[originbot_controller](https://github.com/guyuehome/originbot_controller) | OriginBot controller source code repository |
+## 环境
 
-### Community Forum
+- Ubuntu 22.04
+- ROS 2 Humble
+- Nav2
+- Gazebo Classic
+- Cartographer
+- RViz 2
 
-[https://www.guyuehome.com/interlocution](https://www.guyuehome.com/interlocution)
-
-
-## Software Architecture
-
-- originbot_description: Robot model and loading scripts
-- originbot_viz: Robot visualization function package for PC
-- originbot_demo: Programming examples for basic robot functions
-- originbot_gazebo: Robot simulation models and environments
-- originbot_msgs: OriginBot custom communication interfaces
-- originbot_app: OriginBot visualization software for PC
-- originbot_deeplearning: Robot deep learning function package
-    - line_follower_model: AI vision line-following data collection and model training package
-    - 10_model_convert: Model conversion scripts
-
-## Quick Start
-For detailed instructions, please refer to: [https://www.originbot.org/](https://www.originbot.org/)
-
-### View Robot Visualization Model
-
-#### On PC
+## 构建
 
 ```bash
-$ ros2 launch originbot_description display.launch.py
-```
-![img](images/2022-08-30_13-57.png)
+mkdir -p ~/dev_ws/src
+cd ~/dev_ws/src
+git clone https://github.com/laurellang/originbot_desktop.git
 
-### View Robot Lidar Visualization Data
+cd ~/dev_ws
+source /opt/ros/humble/setup.bash
+colcon build --packages-select \
+  originbot_gazebo originbot_navigation originbot_viz \
+  --symlink-install
+source install/setup.bash
+```
+
+## 运行仿真导航
 
 ```bash
-$ ros2 launch originbot_viz display_lidar.launch.py
+ros2 launch originbot_gazebo originbot_navigation_gazebo.launch.py
 ```
 
-You will see the visualized lidar data:
-![img](images/2022-09-05_18-38.png)
-
-### View IMU Visualization Data
+也可以覆盖默认 world 和地图：
 
 ```bash
-$ ros2 launch originbot_viz display_imu.launch.py
+ros2 launch originbot_gazebo originbot_navigation_gazebo.launch.py \
+  world:=/path/to/world.world \
+  map:=/path/to/map.yaml
 ```
 
-You will see the visualized IMU data:
-![img](images/2022-09-05_18-41.png)
+## 仓库范围
 
-### View Robot TF Relationships
+本仓库包含 PC 端与 Gazebo 仿真侧代码。部署在真实小车
+`/userdata/dev_ws` 下的自定义 waypoint sender 暂未包含在本仓库中。
 
-```bash
-$ ros2 launch originbot_viz display_robot_tf.launch.py
-```
-
-### View Robot SLAM Visualization Process
-
-```bash
-$ ros2 launch originbot_viz display_slam.launch.py
-```
-
-### Monitor Robot Navigation Visualization Process
-
-```bash
-$ ros2 launch originbot_viz display_navigation.launch.py
-```
-
-### Virtual Simulation
-
-#### PC Dependencies Installation
-```bash
-$ sudo apt install ros-foxy-gazebo-ros
-$ sudo apt install ros-foxy-gazebo-ros2-control
-$ sudo apt install ros-foxy-gazebo-plugins
-$ sudo apt install ros-foxy-ros2-control
-$ sudo apt install ros-foxy-ros2-controllers
-```
-
-#### Run Simulation Environment
-```bash
-$ ros2 launch originbot_gazebo originbot_gazebo.launch.py
-```
-![img](images/2022-08-31_23-42.png)
-
-#### View Simulation Topic List
-
-```bash
-$ ros2 topic list
-```
-![img](images/2022-08-31_23-43.png)
-
-#### Control Robot Movement
-```bash
-$ ros2 run teleop_twist_keyboard teleop_twist_keyboard
-```
-
-#### View Camera and Lidar Visualization Data
-Place some obstacles in the simulation environment:
-![img](images/2022-08-31_23-47.png)
-
-```bash
-$ ros2 run rviz2 rviz2
-```
-![img](images/2022-08-31_23-46.png)
-
-## Contributing
-
-We sincerely invite developers to participate in the OriginBot project. There are many ways to contribute:
-
-### **Provide Feedback**
-
-- If you encounter any issues or have suggestions while using the OriginBot suite, feel free to discuss them in the [GuyueHome Community Forum](https://guyuehome.com/Bubble/circleDetail/id/95);
-
-- If you find any bugs while using the OriginBot software, please submit an issue in the [code repository](https://github.com/yzhcat/originbot);
-
-### **Contribute Code**
-
-- If you have optimizations, additions, or modifications to the original code while using the OriginBot suite, feel free to submit a Pull Request in the [code repository](https://github.com/yzhcat/originbot);
-
-### **Spread Open Source**
-
-- If you are interested in OriginBot, feel free to star the project's source code repository or share it with developers who might need it;
-
-- If you develop more interesting features or robots based on the OriginBot open-source project, feel free to share them in the [community forum](https://guyuehome.com/Bubble/circleDetail/id/95). Outstanding projects will also be promoted in the community.
+本项目基于 [guyuehome/originbot_desktop](https://github.com/guyuehome/originbot_desktop)
+进行开发，沿用原项目的 [Apache License 2.0](LICENSE)。
