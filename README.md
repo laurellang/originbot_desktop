@@ -9,6 +9,28 @@ RViz waypoint controls, and ROS 2 Humble simulation launch updates.
 It currently contains only the PC and Gazebo simulation code. The custom
 waypoint sender deployed under `/userdata/dev_ws` on the robot is not included.
 
+## Project Demo and Report
+
+- [OriginBot demonstration video](docs/media/originbot-demo.mp4)
+- [OriginBot course report](docs/reports/originbot-course-report.docx)
+
+### Project Photos
+
+| OriginBot | Gazebo simulation |
+| --- | --- |
+| ![OriginBot robot](docs/photos/originbot-1.jpg) | ![Gazebo simulation](docs/photos/gazebo-simulation.jpg) |
+
+| Physical environment | LiDAR map |
+| --- | --- |
+| ![Physical environment](docs/photos/physical-environment.jpg) | ![LiDAR map](docs/photos/lidar-map.png) |
+
+| Real-world path planning | Real-world operation |
+| --- | --- |
+| ![Real-world path planning](docs/photos/real-world-path-planning.jpg) | ![Real-world operation](docs/photos/real-world-operation-1.jpg) |
+
+Additional views: [OriginBot side view](docs/photos/originbot-2.jpg) and
+[real-world operation view 2](docs/photos/real-world-operation-2.jpg).
+
 OriginBot is an intelligent robot open-source suite and a community-driven open-source project aimed at enabling every participant to enjoy the fun of robot development.
 
 ## Project Links
