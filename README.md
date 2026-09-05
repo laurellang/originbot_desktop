@@ -6,11 +6,12 @@
 
 ## 演示视频
 
-[![点击播放 OriginBot 避障导航演示](docs/photos/real-world-path-planning.jpg)](docs/media/originbot-demo.mp4)
+[![点击播放 OriginBot 避障导航演示](docs/photos/demo-cover.png)](https://laurellang.github.io/originbot_desktop/demo.html)
 
-**[点击播放完整演示视频（MP4，34.8 MB）](docs/media/originbot-demo.mp4)**
+**[在线播放完整演示视频](https://laurellang.github.io/originbot_desktop/demo.html)**
+· [下载 MP4 原文件（34.8 MB）](docs/media/originbot-demo.mp4)
 
-> GitHub 会在视频文件页面提供播放器。点击上方封面或文字链接即可播放。
+> 点击上面的视频封面即可打开网页播放器，无需使用 GitHub 的大文件预览。
 
 ## 项目功能
 

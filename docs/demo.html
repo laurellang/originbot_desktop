@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="OriginBot 室内避障与多点导航演示视频">
+    <title>OriginBot 避障导航演示</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: #f5f7f8;
+        color: #172126;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      header,
+      main {
+        width: min(1200px, calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 68px;
+        border-bottom: 1px solid #d9e0e3;
+      }
+
+      .brand {
+        color: #172126;
+        font-size: 17px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .back-link {
+        color: #196b4b;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      main {
+        padding-block: 40px 56px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(26px, 4vw, 42px);
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      p {
+        max-width: 720px;
+        margin: 12px 0 28px;
+        color: #526168;
+        line-height: 1.7;
+      }
+
+      video {
+        display: block;
+        width: 100%;
+        max-height: calc(100vh - 220px);
+        aspect-ratio: 1921 / 1090;
+        background: #111;
+        border-radius: 6px;
+      }
+
+      .fallback {
+        margin-top: 16px;
+        font-size: 14px;
+      }
+
+      a {
+        color: #196b4b;
+      }
+
+      @media (max-width: 640px) {
+        header,
+        main {
+          width: min(100% - 20px, 1200px);
+        }
+
+        header {
+          min-height: 58px;
+        }
+
+        main {
+          padding-block: 28px 40px;
+        }
+
+        video {
+          max-height: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="../">OriginBot</a>
+      <a class="back-link" href="https://github.com/laurellang/originbot_desktop">返回 GitHub 仓库</a>
+    </header>
+    <main>
+      <h1>室内避障与多点导航演示</h1>
+      <p>真实 OriginBot 小车在实验场景中的导航、路径跟踪与动态避障过程。</p>
+      <video controls playsinline preload="metadata" poster="photos/demo-cover.png">
+        <source src="media/originbot-demo.mp4" type="video/mp4">
+        当前浏览器不支持 HTML5 视频播放。
+      </video>
+      <p class="fallback">
+        无法在线播放时，可
+        <a href="media/originbot-demo.mp4" download>下载 MP4 原文件</a>。
+      </p>
+    </main>
+  </body>
+</html>
